@@ -16,13 +16,13 @@ post '/commit' do
     socket.puts("NICK #{IRC_NICK}")
     socket.puts("USER #{IRC_NICK} 8 * : #{IRC_REALNAME}")
     #socket.puts("JOIN #{IRC_CHANNEL}") # don't join, just send the msg directly
-    
+
     json = JSON.parse(request.env["rack.input"].read)
 
-    socket.puts "PRIVMSG #{IRC_CHANNEL} New Commits for '" + json['repository']['name'] + "'"
+    socket.puts "PRIVMSG #{IRC_CHANNEL} :New Commits for '" + json['repository']['name'] + "'"
 
     json['commits'].each do |commit|
-      socket.puts "PRIVMSG #{IRC_CHANNEL} by #{commit['author']['name']} | #{commit['message']} | #{commit['url']}"
+      socket.puts "PRIVMSG #{IRC_CHANNEL} :by #{commit['author']['name']} | #{commit['message']} | #{commit['url']}"
     end
 
     puts socket.gets
